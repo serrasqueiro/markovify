@@ -11,7 +11,8 @@ import markovify
 
 DEBUG = 0
 IO_ENCODING = "ISO-8859-1"
-IN_ENCODING = IO_ENCODING
+IN_ENCODING = "utf-8"
+
 RAND_FIXED = False	# Put 'True' if you prefer to have predictable random output
 RAND_APPLY = 42		# Put any fixed seed if you prefer
 
