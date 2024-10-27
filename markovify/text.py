@@ -1,10 +1,15 @@
+""" text.py -- markovify text classes
+"""
+# pylint: disable=missing-function-docstring
+
 import functools
 import re
 import json
 import random
+from unidecode import unidecode
 from .splitters import split_into_sentences
 from .chain import Chain, BEGIN
-from unidecode import unidecode
+from .common import dprint
 
 DEFAULT_MAX_OVERLAP_RATIO = 0.7
 DEFAULT_MAX_OVERLAP_TOTAL = 15
@@ -12,10 +17,13 @@ DEFAULT_TRIES = 10
 
 
 class ParamError(Exception):
+    """ Stubbed class. """
     pass
 
 
 class Text:
+    """ Textual class, with new-lines, dots, etc.
+    """
     reject_pat = re.compile(r"(^')|('$)|\s'|'\s|[\"(\(\)\[\])]")
 
     def __init__(
@@ -227,11 +235,13 @@ class Text:
                 else:
                     break
 
-        for _ in range(tries):
+        for idx in range(tries):
             words = prefix + self.chain.walk(init_state)
-            if (max_words is not None and len(words) > max_words) or (
+            is_at = (max_words is not None and len(words) > max_words) or (
                 min_words is not None and len(words) < min_words
-            ):
+            )
+            dprint(f"Debug: TRY-W {is_at}: {idx}: min={min_words}/max={max_words}", words)
+            if is_at:
                 continue  # pragma: no cover # see coveragepy/issues/198
             if test_output and hasattr(self, "rejoined_text"):
                 if self.test_sentence_output(words, mor, mot):
@@ -249,8 +259,12 @@ class Text:
 
         for _ in range(tries):
             sentence = self.make_sentence(**kwargs)
-            if sentence and min_chars <= len(sentence) <= max_chars:
-                return sentence
+            if sentence:
+                is_at = min_chars <= len(sentence) <= max_chars
+                dprint(f"Debug: TRY-S {is_at}: min={min_chars}/max={max_chars}", sentence)
+                if is_at:
+                    return sentence
+        return None
 
     def make_sentence_with_start(self, beginning, strict=True, **kwargs):
         """
