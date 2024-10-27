@@ -5,6 +5,7 @@
 
 # pylint: disable=missing-function-docstring
 
+import sys
 import os.path
 import random
 import markovify
@@ -22,12 +23,26 @@ def main():
     opts = {
         "rand": RAND_APPLY if RAND_FIXED else -1,
     }
+    fname = corpus_from_options(sys.argv[1:], myname)
     runner(
-        os.path.join(os.path.dirname(myname), "corpus.txt"),
+        fname,
         [],
         opts,
         DEBUG,
     )
+
+def corpus_from_options(args, myname):
+    param = args
+    if param:
+        cand = param[0]
+        del param[0]
+    else:
+        cand = os.path.join(os.path.dirname(myname))
+    assert not param, "Too many parameters (either 0 or 1)"
+    if len(cand) == 2:
+        cand = f"corpus-{cand}.txt"
+    fname = cand
+    return fname
 
 def runner(fname, param, opts, debug=0):
     if param:
