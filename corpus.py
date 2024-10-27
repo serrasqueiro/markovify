@@ -37,7 +37,7 @@ def corpus_from_options(args, myname):
         cand = param[0]
         del param[0]
     else:
-        cand = os.path.join(os.path.dirname(myname))
+        cand = os.path.join(os.path.dirname(myname), "corpus.txt")
     assert not param, "Too many parameters (either 0 or 1)"
     if len(cand) == 2:
         cand = f"corpus-{cand}.txt"
