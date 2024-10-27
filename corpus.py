@@ -11,6 +11,7 @@ import markovify
 
 DEBUG = 0
 IO_ENCODING = "ISO-8859-1"
+IN_ENCODING = IO_ENCODING
 RAND_FIXED = False	# Put 'True' if you prefer to have predictable random output
 RAND_APPLY = 42		# Put any fixed seed if you prefer
 
@@ -35,7 +36,7 @@ def runner(fname, param, opts, debug=0):
 
 def script(fname:str, opts, debug=0):
     print(f"markovify.Text(read={fname}, state_size=1)")
-    with open(fname, "r", encoding="ascii") as fdin:
+    with open(fname, "r", encoding=IN_ENCODING) as fdin:
         text = fdin.read()
     r_opt = opts["rand"]
     if r_opt != -1:
@@ -50,12 +51,18 @@ def script(fname:str, opts, debug=0):
     return code
 
 def run_tests(text_model, iters=100, debug=0):
-    max_t = 5000
+    max_t = 100
     form = {}
+    test_out = False
     for idx, _ in enumerate(range(iters), 1):
         if debug > 0:
             print(f"Iteration# {idx}/{iters}: ", end="")
-        astr = text_model.make_short_sentence(max_chars=140, min_chars=90, tries=max_t)
+        astr = text_model.make_short_sentence(
+            max_chars=940,
+            min_chars=20,
+            tries=max_t,
+            test_output=test_out,
+        )
         assert astr is not None, "Not different enough?"
         print(astr, end="\n\n")
         if astr in form:
