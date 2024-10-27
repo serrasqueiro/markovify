@@ -1,3 +1,1 @@
-Once upon a time, in a land far, far away, there lived a king who had three daughters. The eldest was wise and kind, the middle one was brave and strong, and the youngest was clever and curious. They lived in a grand castle surrounded by lush forests and sparkling rivers. Every day, they would explore the kingdom, meeting new friends and learning new things. The people of the kingdom loved their king and his daughters, and they all lived happily ever after.
-
-In another part of the world, there was a small village nestled between two mountains. The villagers were known for their hospitality and kindness. They would often gather in the village square to share stories and celebrate their traditions. One day, a traveler arrived in the village, bringing news of distant lands and exciting adventures. The villagers listened with rapt attention, eager to learn about the world beyond their mountains.
+corpus-pt.txt
